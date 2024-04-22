@@ -54,6 +54,10 @@ ExportedObj/
 # Unity3D generated file on crash reports
 sysinfo.txt
 
+# Wwise
+/FiveCrazyCats-Game-main_WwiseProject/Originals/SFX/*.akd
+/FiveCrazyCats-Game-main_WwiseProject/.cache/
+
 # Builds
 *.apk
 *.unitypackage
