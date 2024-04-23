@@ -54,8 +54,8 @@ public class PlayerMovement : MonoBehaviour
     private void HandleMovement()
     {
         _movementTarget = _worldPosition - transform.position;
-        _movementTarget = _movementTarget.normalized;
         _movementTarget.z = 0;
+        _movementTarget.Normalize();
         _actualSpeed = _speedImpulse;
     }
 
