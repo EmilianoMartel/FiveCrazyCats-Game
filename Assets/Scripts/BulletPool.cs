@@ -40,13 +40,17 @@ public class BulletPool : MonoBehaviour
             _objectList.Remove(temp);
 
         _activeList.Add(temp);
-        temp.gameObject.SetActive(true);
+        temp.ActivateBullet();
     }
 
     private Bullet SelectBullet()
     {
         if (_objectList.Count == 0)
-            return Instantiate(_bulletPrefab, _pointShoot.position, Quaternion.identity);
+        {
+            Bullet temp = Instantiate(_bulletPrefab, _pointShoot.position, Quaternion.identity);
+            temp.SuscribeDieEvent(HandleDesactiveBullet);
+            return temp;
+        }
 
         return _objectList[0];
     }
