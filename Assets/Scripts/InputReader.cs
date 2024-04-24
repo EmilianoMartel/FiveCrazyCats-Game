@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class InputReader : MonoBehaviour
 {
+    public event Action<SkillType> onSkillSelected = delegate { };
     public event Action<Vector2> onLookAt = delegate { };
     public event Action onMove = delegate { };
 
@@ -17,5 +18,15 @@ public class InputReader : MonoBehaviour
     public void SetLookAt(InputAction.CallbackContext inputContext)
     {
         onLookAt?.Invoke(inputContext.ReadValue<Vector2>());
+    }
+
+    public void SetQState(InputAction.CallbackContext inputContext)
+    {
+        onSkillSelected?.Invoke(SkillType.Q);
+    }
+
+    public void SetWStatate(InputAction.CallbackContext inputContext)
+    {
+        onSkillSelected?.Invoke(SkillType.W);
     }
 }

@@ -9,7 +9,6 @@ public class Bullet : MonoBehaviour, IHealth
     [SerializeField] private float _lifeTime = 5f;
 
     private Vector3 _direction;
-    private bool _isActive = true;
 
     private Action<Bullet> onDead = delegate { };
 

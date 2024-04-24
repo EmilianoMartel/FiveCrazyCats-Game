@@ -2,7 +2,7 @@ using System;
 
 public interface IHealth
 {
-    private void HandleDamage(int damage){}
+    public void GetDamage(int damage){}
 
     private void DieLogic() { }
 
