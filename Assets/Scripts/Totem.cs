@@ -3,14 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Totem : MonoBehaviour, IHealth, IHazard
+public class Totem : MonoBehaviour, IHealth, IHazard, ITarget
 {
     [SerializeField] private int _maxLifePoints = 100;
     [SerializeField] private int _damage = 1;
 
     private int _currentLifePoints;
 
-    public Action onDeath = delegate { };
+    public Action<Totem> onDeath = delegate { };
+    public Action<Transform> onSetTarget = delegate { };
 
     private void Awake()
     {
@@ -38,9 +39,20 @@ public class Totem : MonoBehaviour, IHealth, IHazard
         return _damage;
     }
 
-    private void DieLogic() { }
+    private void DieLogic() 
+    {
+        onDeath?.Invoke(this);
+        gameObject.SetActive(false);
+    }
 
-    public void SuscribeDieEvent(Action action) { }
+    public void SuscribeDieEvent(Action<Totem> action) { onDeath += action; }
 
-    public void UnsuscribeDieEvent(Action action) { }
+    public void UnsuscribeDieEvent(Action<Totem> action) { onDeath -= action; }
+
+    private void SetTarget() 
+    {
+        onSetTarget?.Invoke(gameObject.transform);
+    }
+
+    private void DisabledTarget() { }
 }
