@@ -7,7 +7,6 @@ public class Totem : MonoBehaviour, IHealth, IHazard, ITarget
 {
     [SerializeField] private int _maxLifePoints = 100;
     [SerializeField] private int _damage = 1;
-
     private int _currentLifePoints;
 
     public Action<Totem> onDeath = delegate { };
@@ -22,6 +21,11 @@ public class Totem : MonoBehaviour, IHealth, IHazard, ITarget
     {
         if (collision.gameObject.TryGetComponent<IHealth>(out IHealth hp))
             hp.GetDamage(DoDamage());
+    }
+
+    private void OnBecameVisible()
+    {
+        Debug.Log("SI");
     }
 
     public void GetDamage(int damage)
@@ -39,7 +43,7 @@ public class Totem : MonoBehaviour, IHealth, IHazard, ITarget
         return _damage;
     }
 
-    private void DieLogic() 
+    private void DieLogic()
     {
         onDeath?.Invoke(this);
         gameObject.SetActive(false);
@@ -49,7 +53,7 @@ public class Totem : MonoBehaviour, IHealth, IHazard, ITarget
 
     public void UnsuscribeDieEvent(Action<Totem> action) { onDeath -= action; }
 
-    private void SetTarget() 
+    private void SetTarget()
     {
         onSetTarget?.Invoke(gameObject.transform);
     }

@@ -9,56 +9,50 @@ public class Searcher : MonoBehaviour
     [SerializeField] private ITarget _iTarget;
 
     [SerializeField] private Transform _targetTransform;
-    
-    // Indicator icon
-    public Image img;
-    // The target (location, enemy, etc..)
-    public Transform target;
-    // UI Text to display the distance
-    public TMP_Text meter;
-    // To adjust the position of the icon
-    public Vector3 offset;
+    [SerializeField] private Image _searchImage;
+    [SerializeField] private float _treshold = 0.00001f;
+
+    private Vector2 _targetPosition;
+    private Vector2 _searcherPosition;
 
     private void Update()
     {
-        // Giving limits to the icon so it sticks on the screen
-        // Below calculations witht the assumption that the icon anchor point is in the middle
-        // Minimum X position: half of the icon width
-        float minX = img.GetPixelAdjustedRect().width / 2;
-        // Maximum X position: screen width - half of the icon width
-        float maxX = Screen.width - minX;
+        SearchLogic();
+    }
 
-        // Minimum Y position: half of the height
-        float minY = img.GetPixelAdjustedRect().height / 2;
-        // Maximum Y position: screen height - half of the icon height
+    private void SearchLogic()
+    {
+        float minX = _searchImage.GetPixelAdjustedRect().width / 2;
+        float maxX = Screen.width - minX;
+        float minY = _searchImage.GetPixelAdjustedRect().height / 2;
         float maxY = Screen.height - minY;
 
-        // Temporary variable to store the converted position from 3D world point to 2D screen point
-        Vector2 pos = Camera.main.WorldToScreenPoint(target.position + offset);
+        _searcherPosition = Camera.main.WorldToScreenPoint(_targetTransform.position);
 
-        // Check if the target is behind us, to only show the icon once the target is in front
-        if (Vector3.Dot((target.position - transform.position), transform.forward) < 0)
+        if (Vector3.Dot((_targetTransform.position - transform.position), transform.forward) < 0)
         {
-            // Check if the target is on the left side of the screen
-            if (pos.x < Screen.width / 2)
-            {
-                // Place it on the right (Since it's behind the player, it's the opposite)
-                pos.x = maxX;
-            }
+            if (_searcherPosition.x < Screen.width / 2)
+                _targetPosition.x = maxX;
             else
-            {
-                // Place it on the left side
-                pos.x = minX;
-            }
+                _targetPosition.x = minX;
         }
 
-        // Limit the X and Y positions
-        pos.x = Mathf.Clamp(pos.x, minX, maxX);
-        pos.y = Mathf.Clamp(pos.y, minY, maxY);
+        _targetPosition.x = Mathf.Clamp(_searcherPosition.x, minX, maxX);
+        _targetPosition.y = Mathf.Clamp(_searcherPosition.y, minY, maxY);
 
-        // Update the marker's position
-        img.transform.position = pos;
-        // Change the meter text to the distance with the meter unit 'm'
-        meter.text = ((int)Vector3.Distance(target.position, transform.position)).ToString() + "m";
+        _searchImage.transform.position = _targetPosition;
+        EnableLookLogic();
+    }
+
+    private void EnableLookLogic()
+    {
+        if (_searcherPosition == _targetPosition)
+        {
+            _searchImage.gameObject.SetActive(false);
+        }
+        else
+        {
+            _searchImage.gameObject.SetActive(true);
+        }
     }
 }
