@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Parameters")]
     [SerializeField] private float _speedImpulse = 10f;
 
+    private bool _isMoving = false;
+
     private float _actualSpeed = 0;
 
     private Vector3 _targetPosition;
@@ -19,6 +22,10 @@ public class PlayerMovement : MonoBehaviour
 
     private Camera _camera;
     private Mouse _mouse;
+
+    public bool isMoving { get { return _isMoving; } }
+
+    public Action<Vector3> actualPosition = delegate { };
 
     private void OnEnable()
     {
@@ -57,15 +64,28 @@ public class PlayerMovement : MonoBehaviour
         _movementTarget.z = 0;
         _movementTarget.Normalize();
         _actualSpeed = _speedImpulse;
+        StartCoroutine(SpeedReduction());
     }
 
     private void MovementLogic()
     {
-        if (_actualSpeed <= 0)
+        if (!_isMoving)
             return;
                 
         transform.position += _movementTarget * Time.deltaTime * _speedImpulse;
-        _actualSpeed -= Time.deltaTime;
+    }
+
+    private IEnumerator SpeedReduction()
+    {
+        _isMoving = true;
+        while(_actualSpeed > 0)
+        {
+            _actualSpeed -= Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        _actualSpeed = 0;
+        actualPosition?.Invoke(transform.position);
+        _isMoving = false;
     }
 
     private void RotateAimTarget(Vector3 worldpos)
