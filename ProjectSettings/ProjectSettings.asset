@@ -686,6 +686,7 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
+    Android: WWISE_ADDRESSABLES_POST_2023
     Standalone: WWISE_ADDRESSABLES_POST_2023
   additionalCompilerArguments: {}
   platformArchitecture: {}
