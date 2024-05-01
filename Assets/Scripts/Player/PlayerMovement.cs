@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isMoving { get { return _isMoving; } }
 
     public Action<Vector3> actualPosition = delegate { };
+    public Action onMovement = delegate { };
 
     private void OnEnable()
     {
@@ -64,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
         _movementTarget.z = 0;
         _movementTarget.Normalize();
         _actualSpeed = _speedImpulse;
+        onMovement?.Invoke();
         StartCoroutine(SpeedReduction());
     }
 

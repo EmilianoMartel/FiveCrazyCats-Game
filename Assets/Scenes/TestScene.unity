@@ -2826,9 +2826,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1793222818}
-  - component: {fileID: 1793222817}
   - component: {fileID: 1793222819}
-  - component: {fileID: 1793222820}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -2836,21 +2834,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1793222817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1793222816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc5e8e6d85e29b848b249eb9f253347c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _player: {fileID: 1972989178}
-  _rotationRadius: 5
-  _angularSpeed: 1.2
 --- !u!4 &1793222818
 Transform:
   m_ObjectHideFlags: 0
@@ -2880,22 +2863,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 1972989179}
-  _line: {fileID: 1793222820}
-  _patron: {fileID: 1793222817}
---- !u!114 &1793222820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1793222816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd72c4e201f0378428228efe60cddacb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _target: {fileID: 1972989178}
-  _speed: 4
+  _playerDistance: 10
+  _totemDistance: 5
+  _speed: 3
+  _lineSpeed: 1
 --- !u!1 &1818102305
 GameObject:
   m_ObjectHideFlags: 0

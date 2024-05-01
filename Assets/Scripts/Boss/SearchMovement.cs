@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SearchMovement : MonoBehaviour
+public class SearchMovement : Movement
 {
-    [SerializeField] private Transform _target;
-    [SerializeField] private float _speed = 1;
+    private float _speed = 1;
 
     private Vector3 _movement;
 
-    private void Update()
+    public override Vector3 GetDirection(Vector3 target,Vector3 self)
     {
-        _movement = _target.position - transform.position;
+        _movement = target - self;
         _movement.Normalize();
-        //transform.position += _movement * Time.deltaTime;
+        return _movement;
     }
 }

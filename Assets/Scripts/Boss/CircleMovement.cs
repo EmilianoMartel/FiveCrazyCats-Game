@@ -3,27 +3,24 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class CircleMovement : MonoBehaviour
+public class CircleMovement : Movement
 {
-    [SerializeField] private Transform _player;
-
-    [SerializeField] private float _rotationRadius = 2f, _angularSpeed = 2f;
+    private float _rotationRadius = 5f, _angularSpeed = 0.5f;
 
     private float posX, posY, angle = 0f;
 
-    public Transform player { get { return _player; } set { _player = value; } }
-
-    private void Update()
+    public override Vector3 GetDirection(Vector3 playerPosition, Vector3 selfPosition)
     {
-        posX = (transform.position.x -_player.position.x) + Mathf.Cos(angle) * _rotationRadius;
-        posY = (transform.position.y - _player.position.y) + Mathf.Sin(angle) * _rotationRadius;
-        
-        Vector3 direction = _player.position - new Vector3(posX, posY, 0) ;
+        posX = (playerPosition.x) + Mathf.Cos(angle) * _rotationRadius;
+        posY = (playerPosition.y) + Mathf.Sin(angle) * _rotationRadius;
 
-        transform.Translate(direction * Time.deltaTime);
+        Vector3 direction = new Vector3(posX, posY, 0) - selfPosition;
+
         angle = angle + Time.deltaTime * _angularSpeed;
 
         if (angle >= 360f)
             angle = 0f;
+
+        return direction;
     }
 }
